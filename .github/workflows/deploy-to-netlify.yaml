@@ -28,7 +28,7 @@ jobs:
         run: npm run build
 
       - name: Copy configuration files
-        run: cp ./netlify.toml ./dist/browser/netlify.toml
+        run: cp ./netlify.toml ./dist/${{ github.event.repository.name }}/browser/netlify.toml
 
        # ( Build to ./dist or other directory... )
       - name: Deploy to Netlify
