@@ -27,5 +27,11 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps chromium
 
+      - name: Start server
+        run: npm start &
+        env:
+          PORT: 4200
+          NODE_ENV: test
+
       - name: Run Playwright tests
         run: npx playwright test
