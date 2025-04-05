@@ -10,10 +10,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Find PR Number
+        uses: jwalton/gh-find-current-pr@v1
+        id: findPr
+
       - name: Set up NodeJS
         uses: actions/setup-node@v4
         with:
           node-version: 22
 
+      - name: Run npm install
+        run: npm install
+
+      - name: Start server
+        run: npm run start &
+
       - name: Run tests and generate coverage report
         uses: ArtiomTr/jest-coverage-report-action@v2
+        with:
+          prnumber: ${{ steps.findPr.outputs.number }}
