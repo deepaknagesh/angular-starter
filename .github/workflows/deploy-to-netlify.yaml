@@ -9,6 +9,7 @@ on:
 
 jobs:
   build:
+    name: Build and Deploy ${{ github.event.repository.name }} to Netlify
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -24,11 +25,11 @@ jobs:
       - name: NPM install
         run: npm ci
 
-      - name: Build the application
+      - name: Build ${{ github.event.repository.name }}
         run: npm run build
 
        # ( Build to ./dist or other directory... )
-      - name: Deploy to Netlify
+      - name: Deploy ${{ github.event.repository.name }} to Netlify
         uses: nwtgck/actions-netlify@v3.0
         with:
           publish-dir: './dist/${{ github.event.repository.name }}/browser'
