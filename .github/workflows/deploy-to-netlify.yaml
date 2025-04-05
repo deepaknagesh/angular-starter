@@ -16,6 +16,11 @@ jobs:
         with:
           ref: ${{ github.event.inputs.branch }}
 
+      - name: Set up NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
       - name: Build the application
         run: |
           npm install
