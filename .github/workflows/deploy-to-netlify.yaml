@@ -27,19 +27,16 @@ jobs:
       - name: Build the application
         run: npm run build
 
-      - name: Copy configuration files
-        run: cp ./netlify.toml ./dist/${{ github.event.repository.name }}/browser/netlify.toml
-
        # ( Build to ./dist or other directory... )
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v3.0
         with:
-          publish-dir: './dist'
+          publish-dir: './dist/${{ github.event.repository.name }}/browser'
           production-branch: master
           production-deploy: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
           deploy-message: "Deploying ${{ github.event.repository.name }} to Netlify"
-          # netlify-config-path: ./netlify.toml
+          netlify-config-path: ./netlify.toml
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
