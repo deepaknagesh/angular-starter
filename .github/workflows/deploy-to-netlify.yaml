@@ -32,8 +32,8 @@ jobs:
         uses: nwtgck/actions-netlify@v3.0
         with:
           publish-dir: './dist/${{ github.event.repository.name }}/browser'
-          production-branch: master
-          production-deploy: true
+          # production-branch: main
+          # production-deploy: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
           deploy-message: "Deploying ${{ github.event.repository.name }} to Netlify"
           netlify-config-path: ./netlify.toml
