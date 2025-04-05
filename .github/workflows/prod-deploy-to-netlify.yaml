@@ -15,8 +15,6 @@ jobs:
   approval:
     name: Approval
     runs-on: ubuntu-latest
-    outputs:
-      approval_status: ${{ steps.approval.outputs.approval_status }}
     steps:
       - name: Approval step
         id: approval
