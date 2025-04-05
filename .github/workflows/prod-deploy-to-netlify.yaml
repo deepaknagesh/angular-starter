@@ -31,7 +31,7 @@ jobs:
           additional-denied-words: 'stop'
   build:
     needs: approval
-    if: ${{ github.job.approval.approval_status  == 'approved' }}
+    if: ${{ needs.approval.outputs.approval_status  == 'approved' }}
     name: Build and Deploy ${{ github.event.repository.name }} to Netlify
     runs-on: ubuntu-latest
     steps:
