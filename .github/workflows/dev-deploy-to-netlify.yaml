@@ -1,4 +1,4 @@
-name: "Build and Deploy to Netlify"
+name: "Build and Deploy to Netlify - Dev"
 
 on:
   workflow_dispatch:
@@ -39,6 +39,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           deploy-message: "Deploying ${{ github.event.repository.name }} to Netlify"
           netlify-config-path: ./netlify.toml
+          enable-github-deployment: false
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
@@ -47,5 +48,5 @@ jobs:
       # Set Job Summary
       - name: Job details
         run: |
-          echo "### Deployed ${{ github.event.repository.name }} to Netlify" >> $GITHUB_STEP_SUMMARY  
-          echo "### URL: ${{ steps.deploy.outputs.deploy-url }}" >> $GITHUB_STEP_SUMMARY  
+          echo "Deployed ${{ github.event.repository.name }} to Netlify" >> $GITHUB_STEP_SUMMARY  
+          echo "URL: ${{ steps.deploy.outputs.deploy-url }}" >> $GITHUB_STEP_SUMMARY  
