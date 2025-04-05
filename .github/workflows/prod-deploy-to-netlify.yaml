@@ -27,11 +27,10 @@ jobs:
           issue-body: "Please approve or deny the deployment"
           exclude-workflow-initiator-as-approver: false
           fail-on-denial: true
-          additional-approved-words: 'yes, approve, go'
-          additional-denied-words: 'no, deny, stop'
+          additional-approved-words: 'go'
+          additional-denied-words: 'stop'
   build:
     needs: approval
-    if: ${{ github.job.approval.approval_status  == 'approved' }}
     name: Build and Deploy ${{ github.event.repository.name }} to Netlify
     runs-on: ubuntu-latest
     steps:
