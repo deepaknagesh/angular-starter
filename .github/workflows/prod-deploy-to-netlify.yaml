@@ -1,0 +1,75 @@
+name: "Build and Deploy to Netlify - Production"
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "Branch to be deployed"
+        required: false
+        default: "main"
+
+permissions:
+  issues: write
+
+jobs:
+  approval:
+    name: Approval
+    runs-on: ubuntu-latest
+    steps:
+      - name: Approval step
+        id: approval
+        uses: trstringer/manual-approval@v1
+        with:
+          secret: ${{ github.TOKEN }}
+          approvers: deepaknagesh
+          minimum-approvals: 1
+          issue-title: "Production deployment - ${{ github.event.repository.name }} to Netlify"
+          issue-body: "Please approve or deny the deployment"
+          exclude-workflow-initiator-as-approver: false
+          fail-on-denial: true
+          additional-approved-words: 'yes, approve, go'
+          additional-denied-words: 'no, deny, stop'
+  build:
+    needs: approval
+    if: ${{ github.job.approval.approval_status  == 'approved' }}
+    name: Build and Deploy ${{ github.event.repository.name }} to Netlify
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch }}
+
+      - name: Set up NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: NPM install
+        run: npm ci
+
+      - name: Build ${{ github.event.repository.name }}
+        run: npm run build
+
+       # ( Build to ./dist or other directory... )
+      - name: Deploy ${{ github.event.repository.name }} to Netlify
+        id: deploy
+        uses: nwtgck/actions-netlify@v3.0
+        with:
+          publish-dir: './dist/${{ github.event.repository.name }}/browser'
+          production-branch: main
+          production-deploy: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Deploying ${{ github.event.repository.name }} to Netlify"
+          netlify-config-path: ./netlify.toml
+          enable-github-deployment: false
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        timeout-minutes: 1
+    
+      # Set Job Summary
+      - name: Job details
+        run: |
+          echo "Deployed ${{ github.event.repository.name }} to Netlify" >> $GITHUB_STEP_SUMMARY  
+          echo "URL: ${{ steps.deploy.outputs.deploy-url }}" >> $GITHUB_STEP_SUMMARY  
