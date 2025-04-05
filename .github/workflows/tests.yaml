@@ -10,23 +10,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Find PR Number
-        uses: jwalton/gh-find-current-pr@v1
-        id: findPr
-
       - name: Set up NodeJS
         uses: actions/setup-node@v4
         with:
           node-version: 22
 
+      - name: Install dependencies
+        run: npm ci
+  
       - name: Run jest tests
-        uses: ArtiomTr/jest-coverage-report-action@v2
-        with:
-          prnumber: ${{ steps.findPr.outputs.number }}
-          test-script: npm test
+        run: |
+          npx test
+      
+      - name: Jest Coverage Comment
+        uses: MishaKav/jest-coverage-comment@main
 
       - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
+        run: npx playwright install-deps chromium
 
       - name: Run Playwright tests
         run: npx playwright test
