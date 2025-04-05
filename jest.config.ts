@@ -7,7 +7,8 @@ const jestConfig: Config = {
     global: {
         lines: 80,
     },
-},
+  },
+  modulePathIgnorePatterns: ['<rootDir>/e2e/'],
 };
 
 export default jestConfig;
