@@ -7,7 +7,7 @@ const jestConfig: Config = {
     global: {
         lines: 80,
     },
-  },
+},
 };
 
 export default jestConfig;

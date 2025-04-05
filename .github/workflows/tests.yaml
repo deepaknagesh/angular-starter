@@ -19,13 +19,14 @@ jobs:
         with:
           node-version: 22
 
-      - name: Run npm install
-        run: npm install
-
-      - name: Start server
-        run: npm run start &
-
-      - name: Run tests and generate coverage report
+      - name: Run jest tests
         uses: ArtiomTr/jest-coverage-report-action@v2
         with:
           prnumber: ${{ steps.findPr.outputs.number }}
+          test-script: npm test
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Run Playwright tests
+        run: npx playwright test
