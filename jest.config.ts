@@ -6,6 +6,9 @@ const jestConfig: Config = {
   coverageThreshold: {
     global: {
         lines: 80,
+        statements: 95,
+        functions: 95,
+        branches: 80,
     },
   },
   modulePathIgnorePatterns: ['<rootDir>/e2e/'],
