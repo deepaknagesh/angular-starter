@@ -19,14 +19,13 @@ jobs:
         run: npm ci
   
       - name: Run jest tests
-        run: |
-          npx test
+        run: npm test
       
       - name: Jest Coverage Comment
         uses: MishaKav/jest-coverage-comment@main
 
       - name: Install Playwright Browsers
-        run: npx playwright install-deps chromium
+        run: npx playwright install --with-deps chromium
 
       - name: Run Playwright tests
         run: npx playwright test
