@@ -25,12 +25,10 @@ jobs:
         run: npm ci
 
       - name: Build the application
-        run: npm run build --if-present
-        env:
-          NODE_ENV: production
+        run: npm run build
 
-      - name: Copy configuration files
-        run: cp ./netlify.toml ./dist/browser/netlify.toml
+      # - name: Copy configuration files
+      #   run: cp ./netlify.toml ./dist/browser/netlify.toml
 
        # ( Build to ./dist or other directory... )
       - name: Deploy to Netlify
@@ -41,7 +39,7 @@ jobs:
           production-deploy: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
           deploy-message: "Deploying ${{ github.event.repository.name }} to Netlify"
-          # netlify-config-path: netlify.toml
+          netlify-config-path: ./netlify.toml
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
